@@ -4,12 +4,12 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1",
-    "express-jwt": "^6.0.0",
+    "@auth0/auth0-spa-js": "^1.22.2",
+    "express": "^4.18.1",
+    "express-jwt": "^6.1.2",
     "express-jwt-authz": "^2.4.1",
-    "jwks-rsa": "^2.0.3"
+    "jwks-rsa": "^2.1.4"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",

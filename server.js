@@ -10,11 +10,11 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://dev-rfrndm.us.auth0.com/.well-known/jwks.json`
+    jwksUri: `dev-kingsley.us.auth0.com/.well-known/jwks.json`
   }),
 
-  audience: 'www.matttyson.com',
-  issuer: [`https://dev-rfrndm.us.auth0.com/`],
+  audience: 'https://dev-kingsley.us.auth0.com/api/v2/',
+  issuer: [`dev-kingsley.us.auth0.com`],
   algorithms: ['RS256']
 });
 var options = {
@@ -22,6 +22,12 @@ var options = {
 };
 const checkScopes = jwtAuthz([ 'read:protected' ], options);
 
+// display user profile with protected route (authentication) 
+app.get('/profile', checkScopes, (request, response) => {
+  response.send(JSON.stringify(request.oidc.user));
+});
+
+/*
 app.get('/api/open', function(req, res) {
   console.log("/api/open");
   res.json({
@@ -42,6 +48,7 @@ app.get('/api/protected', checkJwt, checkScopes, function(req, res) {
     message: 'Protected Endpoint'
   });
 });
+*/
 
 app.use(express.static(join(__dirname, "public")));
 app.listen(3000);

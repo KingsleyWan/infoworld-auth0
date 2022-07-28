@@ -1,6 +1,54 @@
 <html>
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Landing Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+ .bg {
+  /* The image used */
+  background-image: url("https://i.postimg.cc/vBFw98zV/technical-Analysis.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+    .login-container {
+      position: relative;
+      height: 100%;
+    }
+
+    .login-box {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0px 5px 5px #ccc;
+      border-radius: 5px;
+      border-top: 1px solid #e9e9e9;
+    }
+
+    .login-header {
+      text-align: center;
+    }
+
+    .login-header img {
+      width: 75px;
+    }
+
       .hidden {
         display: none;
       }
@@ -14,11 +62,22 @@
     <script>
       const configureClient = async () => {
         auth0 = await createAuth0Client({
-          domain: "dev-rfrndm.us.auth0.com",
-          client_id: "FSl7Zk4lAfhOGatJ9Os4F7K6SjUpoTPC",
-          audience: "www.matttyson.com" // The backend api id
+          domain: "dev-kingsley.us.auth0.com",
+          client_id: "nNoCECGaPhKe5hPDAKpIBODelb66iUJE",
+          audience: "https://dev-kingsley.us.auth0.com/api/v2/" // The backend api id
         });
       }
+      const login = async () => {
+        await auth0.loginWithRedirect({
+          redirect_uri: "http://localhost:3000"
+        });
+      };
+      const logout = () => {
+        auth0.logout({
+          returnTo: window.location.origin
+        });
+      };
+
       const updateUI = async () => {
         const isAuthenticated = await auth0.isAuthenticated();
 
@@ -41,16 +100,7 @@
           document.getElementById("gated-content").classList.add("hidden");
         }
       };
-      const login = async () => {
-        await auth0.loginWithRedirect({
-          redirect_uri: "http://localhost:3000"
-        });
-      };
-      const logout = () => {
-        auth0.logout({
-          returnTo: window.location.origin
-        });
-      };
+      
       window.onload = async () => {
         await configureClient();
         updateUI();
@@ -78,23 +128,19 @@
   </script>
   </head>
   <body>
-    <h1>Infoworld: Intro to Auth0</h1>
+    <div class="bg"></div>
+    <div class="login-container"></div>
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
+      <div class="login-header">
+        <img src="https://i.postimg.cc/ZRqBsRj9/robot-icons.png"/>
+        <h3>Welcome</h3>
+        <h5>PLEASE LOG IN</h5><hr>
+      </div>
+    <h1><center>iGoInvest</center></h1>
     
-    <button id="btn-login" disabled="true" onclick="login()">Log in</button>
-    <button id="btn-logout" disabled="true" onclick="logout()">Log out</button>
+    <button id="btn-login" class="btn btn-primary btn-block" disabled="true" onclick="login()">Log in</button>
+    <button id="btn-logout" class="btn btn-primary btn-block" disabled="true" onclick="logout()">Log out</button>
 
-    <h2>Fetch Open API</h2>
-    <h3 id="openMessage"></h3>
-    <button onclick="fetchOpenApi()">Open API</button>
-    
-    <h2>Fetch Members Only API</h2>
-    <h3 id="moMessage"></h3>
-    <button onclick="fetchMembersOnlyApi()">Members Only API</button>
-
-    <h2>Fetch Protected API</h2>
-    <h3 id="protectedMessage"></h3>
-    <button onclick="fetchProtectedApi()">Protected API</button>
-    <hr>
     <div class="hidden" id="gated-content">
       <p>
         You're seeing this content because you're currently
@@ -112,6 +158,23 @@
   </body>
 </html>
 
+<!--
+
+  
+  <h2>Fetch Open API</h2>
+  <h3 id="openMessage"></h3>
+  <button onclick="fetchOpenApi()">Open API</button>
+  
+  <h2>Fetch Members Only API</h2>
+  <h3 id="moMessage"></h3>
+  <button onclick="fetchMembersOnlyApi()">Members Only API</button>
+
+  <h2>Fetch Protected API</h2>
+  <h3 id="protectedMessage"></h3>
+  <button onclick="fetchProtectedApi()">Protected API</button>
+  <hr> 
+-- !>
+<!-
 <script>
   async function fetchOpenApi(){
     let result = await fetch("/api/open");
@@ -139,3 +202,4 @@
     document.getElementById("protectedMessage").innerHTML = JSON.stringify(json.message);
   }
 </script>
+-- !>
